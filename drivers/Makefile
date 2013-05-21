@@ -10,6 +10,9 @@ endif
 ifneq (,$(findstring ltc4150,$(USEMODULE)))
     DIRS += ltc4150
 endif
+ifneq (,$(findstring stk1160,$(USEMODULE)))
+    DIRS += stk1160
+endif
 ifneq (,$(findstring cc110x,$(USEMODULE)))
     ifneq (,$(findstring cc110x_ng,$(USEMODULE)))
     	DIRS += cc110x_ng

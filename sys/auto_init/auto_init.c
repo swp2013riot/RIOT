@@ -55,6 +55,10 @@ void auto_init(void) {
     DEBUG("Auto init ltc4150 module.\n");
     ltc4150_init();
 #endif
+#ifdef MODULE_STK1160
+    DEBUG("Auto init stk1160 module.\n");
+    stk1160_init();
+#endif
 #ifdef MODULE_MCI
     DEBUG("Auto init mci module.\n");
     MCI_initialize();
