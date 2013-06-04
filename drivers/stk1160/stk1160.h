@@ -17,39 +17,43 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
 this program.  If not, see http://www.gnu.org/licenses/ .
---------------------------------------------------------------------------------
-For further information and questions please use the web site
-    http://scatterweb.mi.fu-berlin.de
-and the mailinglist (subscription via web site)
-    scatterweb@lists.spline.inf.fu-berlin.de
 *******************************************************************************/
 
-#ifndef __STK1160_ARCH_H
-#define __STK1160_ARCH_H 
-
 /**
- * @defgroup    stk1160 STK1160 Coulomb Counter
- * @ingroup     drivers
+ * @ingroup stk1160
  * @{
  */
 
 /**
  * @file
- * @brief       STK1160 Coulomb Counter
+ * @brief       STK1160 Video Grabber
  *
  * @author      Freie Universität Berlin, Computer Systems & Telematics
- * @author      Heiko Will
- * @version     $Revision: 1203 $
- *
- * @note        $Id: stk1160_arch.h 1203 2009-07-07 10:23:18Z baar $
+ * @author      Philipp Rosenkranz <philipp.rosenkranz@fu-berlin>
+ * @author      Maximilian Ferdinand Müller <m.f.mueller@fu-berlin.de>
  */
 
-/** board specific stk1160 initialization */
-void stk1160_arch_init(void);
+enum stk1160_video_source
+{
+    STK1160_VIDEO_SOURCE_COMPOSITE,
+    STK1160_VIDEO_SOURCE_SVIDEO
+};
 
-int stk1160_read_reg(uint16_t reg, uint8_t* val);
+/** 
+ * @brief       Initializes the STK1160 driver
+ */
+void stk1160_init(void);
 
-int stk116_write_reg(uint16_t reg, uint8_t* val);
+/** 
+ * @brief       Terminates the STK1160 driver
+ */
+void stk1160_terminate(void);
 
-/** * @} */
-#endif /* __STK1160_ARCH_H */
+/**
+ * @brief chooses the video source
+ * @return zero on success, non-zero otherwise
+ */
+int stk1160_set_videosource(stk1160_video_source);
+
+
+/** @} */

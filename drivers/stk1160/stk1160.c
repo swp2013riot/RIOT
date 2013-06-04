@@ -17,11 +17,6 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
 this program.  If not, see http://www.gnu.org/licenses/ .
---------------------------------------------------------------------------------
-For further information and questions please use the web site
-    http://scatterweb.mi.fu-berlin.de
-and the mailinglist (subscription via web site)
-    scatterweb@lists.spline.inf.fu-berlin.de
 *******************************************************************************/
 
 /**
@@ -31,27 +26,28 @@ and the mailinglist (subscription via web site)
 
 /**
  * @file
- * @brief       STK1160 Coulomb Counter
+ * @brief       STK1160 Video Grabber
  *
  * @author      Freie Universität Berlin, Computer Systems & Telematics
- * @author      Heiko Will
- * @author      Kaspar Schleiser <kaspar.schleiser@fu-berlin.de>
+ * @author      Philipp Rosenkranz <philipp.rosenkranz@fu-berlin>
+ * @author      Maximilian Ferdinand Müller <m.f.mueller@fu-berlin.de>
  */
 
+#include <debug.h>
 #include <hwtimer.h>
 #include "stk1160_arch.h"
 
-void stk1160_init(void) {
-    puts("stk1160_init");
+void stk1160_init(void)
+{
+    DEBUG("stk1160_init");
     stk1160_arch_init();
 }
 
-void stk1160_start(void) {
-    puts("stk1160_start");
-}
-
-void stk1160_stop(void) {
-    puts("stk1160_stop");
+int stk1160_set_videosource(stk1160_video_source source)
+{
+    // read reg
+    // write reg
+    // read again
 }
 
 /** @} */
