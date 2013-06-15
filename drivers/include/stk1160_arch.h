@@ -47,9 +47,13 @@ and the mailinglist (subscription via web site)
 /** board specific stk1160 initialization */
 void stk1160_arch_init(void);
 
-int stk1160_read_reg(uint16_t reg, uint8_t* val);
-
-int stk116_write_reg(uint16_t reg, uint8_t* val);
+int usb_control_msg(uint8_t bRequestType,
+                    uint8_t bRequest,
+                    uint16_t wValue,
+                    uint16_t wIndex,
+                    uint16_t wLength,
+                    void* data,
+                    unsigned int timeout);
 
 /** * @} */
 #endif /* __STK1160_ARCH_H */
