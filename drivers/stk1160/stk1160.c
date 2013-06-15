@@ -40,6 +40,94 @@ this program.  If not, see http://www.gnu.org/licenses/ .
 #include <stk1160_arch.h>
 #include <usb.h>
 
+#define STK1160_I2C_TIMEOUT 100
+
+/* copied from linux 3.9 stk1160-i2c.c */
+static int stk1160_i2c_busy_wait(uint8_t wait_bit_mask)
+{
+    unsigned long end;
+    uint8_t flag;
+    
+    end = hwtimer_now() + HWTIMER_TICKS(1000*1000);
+    while (hwtimer_now() < end)
+    {
+        stk1160_read_reg(STK1160_SICTL + 1, &flag);
+        
+        if (flag & wait_bit_mask)
+        {
+            goto done;
+        }
+        
+        hwtimer_wait(HWTIMER_TICKS(10*1000));
+    }
+
+    return -1;
+    
+    done:
+    return 0;
+}
+
+static int stk1160_i2c_write_reg(uint8_t addr, uint8_t reg, uint8_t value)
+{
+    int rc;
+
+    /* Set serial device address */
+    rc = stk1160_write_reg(STK1160_SICTL_SDA, addr);
+    if (rc < 0)
+        return rc;
+
+    /* Set i2c device register sub-address */
+    rc = stk1160_write_reg(STK1160_SBUSW_WA, reg);
+    if (rc < 0)
+        return rc;
+
+    /* Set i2c device register value */
+    rc = stk1160_write_reg(STK1160_SBUSW_WD, value);
+    if (rc < 0)
+        return rc;
+
+    /* Start write now */
+    rc = stk1160_write_reg(STK1160_SICTL, 0x01);
+    if (rc < 0)
+        return rc;
+
+    rc = stk1160_i2c_busy_wait(0x04);
+    if (rc < 0)
+        return rc;
+
+    return 0;
+}
+
+static int stk1160_i2c_read_reg(uint8_t addr, uint8_t reg, uint8_t *value)
+{
+    int rc;
+
+    /* Set serial device address */
+    rc = stk1160_write_reg(STK1160_SICTL_SDA, addr);
+    if (rc < 0)
+        return rc;
+
+    /* Set i2c device register sub-address */
+    rc = stk1160_write_reg(STK1160_SBUSR_RA, reg);
+    if (rc < 0)
+        return rc;
+
+    /* Start read now */
+    rc = stk1160_write_reg(STK1160_SICTL, 0x20);
+    if (rc < 0)
+        return rc;
+
+    rc = stk1160_i2c_busy_wait(0x01);
+    if (rc < 0)
+        return rc;
+
+    stk1160_read_reg(STK1160_SBUSR_RD, value);
+    if (rc < 0)
+        return rc;
+
+    return 0;
+}
+
 void stk1160_init(void)
 {
     DEBUG("stk1160_init");
