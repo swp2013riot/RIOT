@@ -28,21 +28,23 @@ and the mailinglist (subscription via web site)
 #define __STK1160_ARCH_H 
 
 /**
- * @defgroup    stk1160 STK1160 Coulomb Counter
+ * @defgroup    stk1160 STK1160 
  * @ingroup     drivers
  * @{
  */
 
 /**
  * @file
- * @brief       STK1160 Coulomb Counter
+ * @brief       STK1160 
  *
  * @author      Freie Universität Berlin, Computer Systems & Telematics
- * @author      Heiko Will
+ * @author      ------------------NSA-----------TODO- 
  * @version     $Revision: 1203 $
  *
  * @note        $Id: stk1160_arch.h 1203 2009-07-07 10:23:18Z baar $
  */
+
+typedef void (*stk1160_process_data_cb_handler)(uint8_t, uint8_t*, uint16_t);
 
 /** board specific stk1160 initialization */
 void stk1160_arch_init(void);
@@ -54,6 +56,12 @@ int usb_control_msg(uint8_t bRequestType,
                     uint16_t wLength,
                     void* data,
                     unsigned int timeout);
+
+int init_iso_transfer(int num_iso_packets, int buffer_size, stk1160_process_data_cb_handler handler);
+
+void iso_handler(struct libusb_transfer *transfer);
+
+void libusb_event_handling_thread(void);
 
 /** * @} */
 #endif /* __STK1160_ARCH_H */

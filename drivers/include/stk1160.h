@@ -62,7 +62,10 @@ int stk1160_write_reg(uint16_t reg, uint16_t val);
  * @brief chooses the video source
  * @return zero on success, non-zero otherwise
  */
-void stk1160_set_videosource(stk1160_video_source);
+int stk1160_set_videosource(stk1160_video_source);
 
+int stk1160_start_streaming(void);
+
+void handler(uint8_t status, uint8_t *data, uint16_t length);
 
 /** @} */

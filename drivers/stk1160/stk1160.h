@@ -32,7 +32,7 @@ this program.  If not, see http://www.gnu.org/licenses/ .
  * @author      Philipp Rosenkranz <philipp.rosenkranz@fu-berlin>
  * @author      Maximilian Ferdinand Müller <m.f.mueller@fu-berlin.de>
  */
-
+#if 0
 enum stk1160_video_source
 {
     STK1160_VIDEO_SOURCE_COMPOSITE,
@@ -55,5 +55,11 @@ void stk1160_terminate(void);
  */
 int stk1160_set_videosource(stk1160_video_source);
 
+/**
+ * @brief starts streaming
+ * @return zero on success, non-zero otherwise
+ */
+int stk1160_start_streaming(void);
+#endif
 
 /** @} */

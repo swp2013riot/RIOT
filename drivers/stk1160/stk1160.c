@@ -39,8 +39,15 @@ this program.  If not, see http://www.gnu.org/licenses/ .
 #include "stk1160-reg.h"
 #include <stk1160_arch.h>
 #include <usb.h>
+#include "saa711x_regs.h"
 
 #define STK1160_I2C_TIMEOUT 100
+
+/* this *should* be the correct address ... */
+#define SAA711X_I2C_ADDRESS 0x4A
+
+#define DISABLE (0!=0)
+#define ENABLE  (1==1)
 
 /* copied from linux 3.9 stk1160-i2c.c */
 static int stk1160_i2c_busy_wait(uint8_t wait_bit_mask)
@@ -48,9 +55,12 @@ static int stk1160_i2c_busy_wait(uint8_t wait_bit_mask)
     unsigned long end;
     uint8_t flag;
     
+    printf("vor hwtimer_now\n");
     end = hwtimer_now() + HWTIMER_TICKS(1000*1000);
+    printf("nach hwtimer_now\n");
     while (hwtimer_now() < end)
     {
+//        printf("still waiting\n");
         stk1160_read_reg(STK1160_SICTL + 1, &flag);
         
         if (flag & wait_bit_mask)
@@ -58,7 +68,12 @@ static int stk1160_i2c_busy_wait(uint8_t wait_bit_mask)
             goto done;
         }
         
-        hwtimer_wait(HWTIMER_TICKS(10*1000));
+        printf("vor hwtimer_wait\n");
+     // TODO: replace with hwtimer_wait
+     // hwtimer_wait(HWTIMER_TICKS(10*1000));
+        volatile int evil = 2000000;
+        while (evil--);
+        printf("nach hwtimer_wait\n");
     }
 
     return -1;
@@ -67,6 +82,7 @@ static int stk1160_i2c_busy_wait(uint8_t wait_bit_mask)
     return 0;
 }
 
+/* copied from linux 3.9 stk1160-i2c.c */
 static int stk1160_i2c_write_reg(uint8_t addr, uint8_t reg, uint8_t value)
 {
     int rc;
@@ -98,6 +114,7 @@ static int stk1160_i2c_write_reg(uint8_t addr, uint8_t reg, uint8_t value)
     return 0;
 }
 
+/* copied from linux 3.9 stk1160-i2c.c */
 static int stk1160_i2c_read_reg(uint8_t addr, uint8_t reg, uint8_t *value)
 {
     int rc;
@@ -166,10 +183,28 @@ int stk1160_write_reg(uint16_t reg, uint16_t val)
     return 0;
 }
 
-void stk1160_set_videosource(stk1160_video_source source)
+int stk1160_set_videosource(stk1160_video_source source)
 {
     int ret = stk1160_write_reg(STK1160_GCTRL, source);
     printf("stk1160_set_videosource: stk1160_write_reg(%d, %x) returned %d\n", STK1160_GCTRL, source, ret);
+    return ret;
+}
+
+int stk1160_start_streaming(void)
+{
+    init_iso_transfer(64, sizeof(void*)*16, handler);
+    int ret0 = stk1160_i2c_write_reg(SAA711X_I2C_ADDRESS, R_87_I_PORT_I_O_ENA_OUT_CLK_AND_GATED, ENABLE);
+    int ret1 = stk1160_write_reg(STK1160_DCTRL, 0xb3);
+    int ret2 = stk1160_write_reg(STK1160_DCTRL + 3, 0x00);
+
+    printf("(ret0, ret1, ret2) == (%d, %d, %d)\n", ret0, ret1, ret2);
+
+    return ret0 || ret1 || ret2;
+}
+
+void handler(uint8_t status, uint8_t *data, uint16_t length)
+{
+    printf("handler(%d, %x, %d)\n", status, data, length);
 }
 
 /** @} */
