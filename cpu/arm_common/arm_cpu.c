@@ -4,8 +4,9 @@
  * Copyright (C) 2008, 2009  Heiko Will <hwill@inf.fu-berlin.de>
  * Copyright (C) 2009  Kaspar Schleiser <kaspar@schleiser.de>
  *
- * This file subject to the terms and conditions of the GNU General Public
- * License. See the file LICENSE in the top level directory for more details.
+ * This file subject to the terms and conditions of the GNU Lesser General
+ * Public License. See the file LICENSE in the top level directory for more
+ * details.
  *
  * @ingroup arch
  * @{
@@ -15,7 +16,7 @@
  * @}
  */
 /**
- * 
+ *
  *
  *
  */
@@ -40,7 +41,7 @@ void thread_yield(void)
 char *thread_stack_init(void *task_func, void *stack_start, int stack_size)
 {
     unsigned int *stk;
-    stk = (unsigned int *) (stack_start + stack_size);
+    stk = (unsigned int *)(stack_start + stack_size);
     stk--;
 
     *stk = STACK_MARKER;
@@ -51,10 +52,10 @@ char *thread_stack_init(void *task_func, void *stack_start, int stack_size)
 
     /* set the stack pointer (SP) */
     stk--;
-    *stk = (unsigned int) (stack_start + stack_size) - 4;
+    *stk = (unsigned int)(stack_start + stack_size) - 4;
 
     /* build base stack */
-    for (int i = REGISTER_CNT; i>= 0 ; i--) {
+    for(int i = REGISTER_CNT; i >= 0 ; i--) {
         stk--;
         *stk = i;
     }
@@ -66,32 +67,35 @@ char *thread_stack_init(void *task_func, void *stack_start, int stack_size)
     stk--;
     *stk = (unsigned int) NEW_TASK_CPSR;
 
-    return (char*) stk;
+    return (char *)stk;
 }
 
 void thread_print_stack(void)
 {
     register void *stack = 0;
-    asm( "mov %0, sp" : "=r" (stack));
+    asm("mov %0, sp" : "=r"(stack));
 
-    register unsigned int *s = (unsigned int*) stack;
+    register unsigned int *s = (unsigned int *)stack;
     printf("task: %X SP: %X\n", (unsigned int) active_thread, (unsigned int) stack);
     register int i = 0;
     s += 5;
-    while (*s != STACK_MARKER) {
+
+    while(*s != STACK_MARKER) {
         printf("STACK (%u) addr=%X = %X \n", i, (unsigned int) s, (unsigned int) *s);
         s++;
         i++;
     }
-    printf("STACK (%u)= %X \n",i,*s);
+
+    printf("STACK (%u)= %X \n", i, *s);
 }
 
-__attribute__((naked,noreturn)) void arm_reset(void)
+__attribute__((naked, noreturn)) void arm_reset(void)
 {
     dINT();
-    WDTC = 0x00FFF;
-    WDMOD = 0x03;
-    WDFEED= 0xAA;
-    WDFEED= 0x55;
+    WDTC   = 0x00FFF;
+    WDMOD  = 0x03;
+    WDFEED = 0xAA;
+    WDFEED = 0x55;
+
     while(1);
 }

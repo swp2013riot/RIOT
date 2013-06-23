@@ -1,3 +1,19 @@
+/**
+ * Auto initialization for used modules
+ *
+ * Copyright (C) 2013  INRIA.
+ *
+ * This file subject to the terms and conditions of the GNU Lesser General
+ * Public License. See the file LICENSE in the top level directory for more
+ * details.
+ *
+ * @ingroup auto_init
+ * @{
+ * @file    auto_init_c
+ * @brief   initializes any used module that has a trivial init function
+ * @author  Oliver Hahm <oliver.hahm@inria.fr>
+ * @}
+ */
 #include <stdint.h>
 #include <stdio.h>
 #include "board_uart0.h"
@@ -9,9 +25,10 @@
 #define ENABLE_DEBUG
 #include <debug.h>
 
-extern void main(void);
+extern int main(void);
 
-void auto_init(void) {
+void auto_init(void)
+{
 #ifdef MODULE_BOARD_DISPLAY
     extern void lcd_init();
     lcd_init();

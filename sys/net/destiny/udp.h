@@ -1,3 +1,20 @@
+/**
+ * Destiny TCP header
+ *
+ * Copyright (C) 2013  INRIA.
+ *
+ * This file subject to the terms and conditions of the GNU Lesser General
+ * Public License. See the file LICENSE in the top level directory for more
+ * details.
+ *
+ * @ingroup destiny 
+ * @{
+ * @file    udp.c
+ * @brief   UDP data structs and prototypes
+ * @author  Oliver Gesch <oliver.gesch@googlemail.com>
+ * @}
+ */
+
 /*
  * udp.h
  *
@@ -12,9 +29,9 @@
 
 #define UDP_STACK_SIZE 				512
 
-#include "sys/net/sixlowpan/sixlowip.h"
+#include "../sixlowpan/sixlowip.h"
 
-typedef struct __attribute__ ((packed)) udp_h_t{
+typedef struct __attribute__((packed)) udp_h_t {
     uint16_t src_port;
     uint16_t dst_port;
     uint16_t length;

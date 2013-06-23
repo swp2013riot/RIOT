@@ -3,8 +3,9 @@
  *
  * Copyright (C) 2013 Ludwig Ortmann
  *
- * This file subject to the terms and conditions of the GNU General Public
- * License. See the file LICENSE in the top level directory for more details.
+ * This file subject to the terms and conditions of the GNU Lesser General
+ * Public License. See the file LICENSE in the top level directory for more
+ * details.
  *
  * @ingroup arch
  * @{
@@ -21,7 +22,7 @@ extern void board_init(void);
 extern void native_cpu_init(void);
 extern void native_interrupt_init(void);
 
-__attribute__ ((constructor)) static void startup(void)
+__attribute__((constructor)) static void startup(void)
 {
     native_cpu_init();
     native_interrupt_init();
