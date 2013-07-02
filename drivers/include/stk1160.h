@@ -19,6 +19,9 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see http://www.gnu.org/licenses/ .
 *******************************************************************************/
 
+#ifndef __STK1160_H
+#define __STK1160_H 
+
 /**
  * @ingroup stk1160
  * @{
@@ -39,7 +42,7 @@ typedef enum
     STK1160_VIDEO_SOURCE_COMPOSITE1 = 0x90,
     STK1160_VIDEO_SOURCE_COMPOSITE2 = 0x88,
     STK1160_VIDEO_SOURCE_COMPOSITE3 = 0x80,
-    STK1160_VIDEO_SOURCE_SVIDEO     = 0xDEADBEEF
+    STK1160_VIDEO_SOURCE_SVIDEO     = 0xDEADBEEF // ???
 }
 stk1160_video_source;
 
@@ -69,3 +72,5 @@ int stk1160_start_streaming(void);
 void handler(uint8_t status, uint8_t *data, uint16_t length);
 
 /** @} */
+
+#endif /* __STK1160_H */

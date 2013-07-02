@@ -16,6 +16,8 @@
  * @}
  */
 
+#define ENABLE_DEBUG
+
 #include <stdio.h>
 #include <hwtimer.h>
 #include <hwtimer_cpu.h>

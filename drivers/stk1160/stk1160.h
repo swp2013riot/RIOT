@@ -32,6 +32,9 @@ this program.  If not, see http://www.gnu.org/licenses/ .
  * @author      Philipp Rosenkranz <philipp.rosenkranz@fu-berlin>
  * @author      Maximilian Ferdinand Müller <m.f.mueller@fu-berlin.de>
  */
+
+/* TODO: DELETE ME!!!! */
+
 #if 0
 enum stk1160_video_source
 {

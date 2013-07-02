@@ -15,6 +15,7 @@
  * @file
  * @author  Ludwig Ortmann <ludwig.ortmann@fu-berlin.de>
  */
+#define ENABLE_DEBUG 
 #include <stdio.h>
 #ifdef __MACH__
 #define _XOPEN_SOURCE
@@ -31,6 +32,7 @@
 #include "cpu.h"
 #include "cpu-conf.h"
 #include "debug.h"
+
 
 extern volatile tcb_t *active_thread;
 static ucontext_t end_context;

@@ -60,19 +60,17 @@ static int stk1160_i2c_busy_wait(uint8_t wait_bit_mask)
     printf("nach hwtimer_now\n");
     while (hwtimer_now() < end)
     {
-//        printf("still waiting\n");
+        printf("still waiting\n");
         stk1160_read_reg(STK1160_SICTL + 1, &flag);
         
         if (flag & wait_bit_mask)
         {
+            puts("goto done\n");
             goto done;
         }
         
         printf("vor hwtimer_wait\n");
-     // TODO: replace with hwtimer_wait
-     // hwtimer_wait(HWTIMER_TICKS(10*1000));
-        volatile int evil = 2000000;
-        while (evil--);
+        hwtimer_wait(HWTIMER_TICKS(100*1000));
         printf("nach hwtimer_wait\n");
     }
 
@@ -107,7 +105,7 @@ static int stk1160_i2c_write_reg(uint8_t addr, uint8_t reg, uint8_t value)
     if (rc < 0)
         return rc;
 
-    rc = stk1160_i2c_busy_wait(0x04);
+    rc =  (0x04);
     if (rc < 0)
         return rc;
 
@@ -192,12 +190,12 @@ int stk1160_set_videosource(stk1160_video_source source)
 
 int stk1160_start_streaming(void)
 {
-    init_iso_transfer(64, sizeof(void*)*16, handler);
     int ret0 = stk1160_i2c_write_reg(SAA711X_I2C_ADDRESS, R_87_I_PORT_I_O_ENA_OUT_CLK_AND_GATED, ENABLE);
     int ret1 = stk1160_write_reg(STK1160_DCTRL, 0xb3);
     int ret2 = stk1160_write_reg(STK1160_DCTRL + 3, 0x00);
+    init_iso_transfer(64, 3072, handler);
 
-    printf("(ret0, ret1, ret2) == (%d, %d, %d)\n", ret0, ret1, ret2);
+    printf("stk1160_start_streaming: (ret0, ret1, ret2) == (%d, %d, %d)\n", ret0, ret1, ret2);
 
     return ret0 || ret1 || ret2;
 }
