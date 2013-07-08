@@ -20,7 +20,9 @@ this program.  If not, see http://www.gnu.org/licenses/ .
 *******************************************************************************/
 
 #ifndef __STK1160_H
-#define __STK1160_H 
+#define __STK1160_H
+
+#include <stk1160_arch.h>
 
 /**
  * @ingroup stk1160
@@ -67,9 +69,7 @@ int stk1160_write_reg(uint16_t reg, uint16_t val);
  */
 int stk1160_set_videosource(stk1160_video_source);
 
-int stk1160_start_streaming(void);
-
-void handler(uint8_t status, uint8_t *data, uint16_t length);
+int stk1160_start_streaming(stk1160_process_data_cb_handler handler);
 
 /** @} */
 

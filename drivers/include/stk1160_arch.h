@@ -44,7 +44,7 @@ and the mailinglist (subscription via web site)
  * @note        $Id: stk1160_arch.h 1203 2009-07-07 10:23:18Z baar $
  */
 
-typedef void (*stk1160_process_data_cb_handler)(uint8_t, uint8_t*, uint16_t);
+typedef void (*stk1160_process_data_cb_handler)(uint8_t*, uint16_t);
 
 /** board specific stk1160 initialization */
 void stk1160_arch_init(void);
