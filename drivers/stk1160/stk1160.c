@@ -188,21 +188,16 @@ int stk1160_set_videosource(stk1160_video_source source)
     return ret;
 }
 
-int stk1160_start_streaming(void)
+int stk1160_start_streaming(stk1160_process_data_cb_handler user_handler)
 {
     int ret0 = stk1160_i2c_write_reg(SAA711X_I2C_ADDRESS, R_87_I_PORT_I_O_ENA_OUT_CLK_AND_GATED, ENABLE);
     int ret1 = stk1160_write_reg(STK1160_DCTRL, 0xb3);
     int ret2 = stk1160_write_reg(STK1160_DCTRL + 3, 0x00);
-    init_iso_transfer(64, 3072, handler);
+    init_iso_transfer(64, 3072, user_handler);
 
     printf("stk1160_start_streaming: (ret0, ret1, ret2) == (%d, %d, %d)\n", ret0, ret1, ret2);
 
     return ret0 || ret1 || ret2;
-}
-
-void handler(uint8_t status, uint8_t *data, uint16_t length)
-{
-    printf("handler(%d, %x, %d)\n", status, data, length);
 }
 
 /** @} */
