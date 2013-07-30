@@ -20,6 +20,19 @@
  *
  */
 
+/**
+ * @ingroup stk1160
+ * @{
+ */
+
+/**
+ * @file
+ * 
+ * @brief stk1160 register defines.
+ * 
+ * @note This file was take from the linux kernel (Version 3.9). DO NOT MODIFY THE HEADER!
+ */
+
 /* GPIO Control */
 #define STK1160_GCTRL           0x000
 
@@ -91,3 +104,5 @@
 
 /* EEPROM Interface */
 #define STK1160_EEPROM_SZ       0x5f0
+
+/** @} */

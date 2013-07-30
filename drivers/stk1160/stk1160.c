@@ -26,7 +26,7 @@ this program.  If not, see http://www.gnu.org/licenses/ .
 
 /**
  * @file
- * @brief       STK1160 Video Grabber
+ * @brief       STK1160/SAA711X USB-video-grabber driver
  *
  * @author      Freie Universität Berlin, Computer Systems & Telematics
  * @author      Philipp Rosenkranz <philipp.rosenkranz@fu-berlin>
@@ -47,7 +47,14 @@ this program.  If not, see http://www.gnu.org/licenses/ .
 #define DISABLE 0
 #define ENABLE  1
 
-/* copied from linux 3.9 stk1160-i2c.c */
+/**
+ * Checks for a certain period of time a special
+ * i2c related register on the stk1160. 
+ * If the LSB of this register is 1 then the i2c 
+ * operation was successful.
+ * 
+ * @note code based upon stk1160-i2c.c in linux 3.9
+ */
 static int stk1160_i2c_busy_wait(uint8_t wait_bit_mask)
 {
     unsigned long end;
@@ -78,7 +85,15 @@ static int stk1160_i2c_busy_wait(uint8_t wait_bit_mask)
     return 0;
 }
 
-/* copied from linux 3.9 stk1160-i2c.c */
+/**
+ * @brief Ask the stk1160 chip to write a value into a register over i2c.
+ * 
+ * @param addr i2c address of a chip which is connected with the stk1160
+ * @param reg  register on that chip
+ * @param [in] value value to write into that register 
+ *
+ * @note code based upon stk1160-i2c.c in linux 3.9
+ */
 static int stk1160_i2c_write_reg(uint8_t addr, uint8_t reg, uint8_t value)
 {
     int rc;
@@ -110,7 +125,15 @@ static int stk1160_i2c_write_reg(uint8_t addr, uint8_t reg, uint8_t value)
     return 0;
 }
 
-/* copied from linux 3.9 stk1160-i2c.c */
+/**
+ * @brief Ask the stk1160 chip to read a value from a register over i2c.
+ * 
+ * @param addr i2c address of a chip which is connected with the stk1160
+ * @param reg  register on that chip
+ * @param [out] value the read value will be stored into value
+ *
+ * @note code based upon stk1160-i2c.c in linux 3.9
+ */
 static int stk1160_i2c_read_reg(uint8_t addr, uint8_t reg, uint8_t *value)
 {
     int rc;
@@ -162,7 +185,7 @@ int stk1160_read_reg(uint16_t reg, uint8_t* val)
 
     return 0;
 }
- 
+
 int stk1160_write_reg(uint16_t reg, uint16_t val) 
 {
     int ret;

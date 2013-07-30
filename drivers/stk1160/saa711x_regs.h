@@ -13,6 +13,19 @@
  * GNU General Public License for more details.
  */
 
+/**
+ * @ingroup stk1160
+ * @{
+ */
+
+/**
+ * @file
+ * 
+ * @brief saa711x register defines.
+ * 
+ * @note This file was take from the linux kernel (Version 3.9). DO NOT MODIFY THE HEADER!
+ */
+
 #define R_00_CHIP_VERSION                             0x00
 /* Video Decoder */
 	/* Video Decoder - Frontend part */
@@ -547,3 +560,5 @@ struct saa711x_reg_descr saa711x_regs[] = {
 	 "S_PLL max. phase, error threshold, PLL2 no. of lines, threshold"},
 };
 #endif
+
+/** @} */

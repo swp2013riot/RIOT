@@ -7,6 +7,7 @@
  * @author      Maximilian Müller <m.f.mueller@fu-berlin.de>
  */
 
+#ifndef USB_H
 #define USB_H
 
 #define USB_ENDPOINT_IN 0x80
@@ -16,4 +17,4 @@
 
 #define USB_RECIPIENT_DEVICE 0x00
 
-#endif /* USB_H */
+#endif

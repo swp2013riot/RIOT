@@ -28,25 +28,34 @@ and the mailinglist (subscription via web site)
 #define __STK1160_ARCH_H 
 
 /**
- * @defgroup    stk1160 STK1160 
- * @ingroup     drivers
+ * @ingroup     stk1160
  * @{
  */
 
 /**
  * @file
- * @brief       STK1160 
+ * @brief       STK1160/SAA711X USB-video-grabber driver
  *
  * @author      Freie Universität Berlin, Computer Systems & Telematics
  * @author      Philipp Rosenkranz, Freie Universität Berlin <philipp.rosenkranz@fu-berlin.de>
  * @author      Maximilian Müller, Freie Universität Berlin <m.f.mueller@fu-berlin.de>
  */
 
+/** 
+ * @file
+ * @typedef stk1160_process_data_cb_handler
+ * @brief a handler which is executed whenever video data is received.
+ */
 typedef void (*stk1160_process_data_cb_handler)(uint8_t*, uint16_t);
 
-/** board specific stk1160 initialization */
+/**
+ * @brief finds and reserves the usb-video-grabber for further use by this driver.
+ */ 
 void stk1160_arch_init(void);
 
+/**
+ * @brief Sends a synchronous usb control message
+ */
 int usb_control_msg(uint8_t bRequestType,
                     uint8_t bRequest,
                     uint16_t wValue,
@@ -55,10 +64,30 @@ int usb_control_msg(uint8_t bRequestType,
                     void* data,
                     unsigned int timeout);
 
+/**
+ * @brief Initializes the isochronous data transfer between host and STK1160.
+ * 
+ * @param num_iso_packets the number of packets to use. 
+ * @param buffer_size the buffer size to be reserved for each packet
+ * @param handler a handler which is called when new video data is ready for processing
+ */
 int init_iso_transfer(int num_iso_packets, int buffer_size, stk1160_process_data_cb_handler handler);
 
+/**
+ * @brief This function is called each time a new packet (!) arrives.
+ * 
+ * It extracts data from the packet, calls the handler function 
+ * with this data and resends a new empty packet to the grabber.
+ * 
+ * @note This function is more or less libusb specific and should be 
+ * refactored. 
+ */
 void iso_handler(struct libusb_transfer *transfer);
 
+/**
+ * @note This function is more or less libusb specific and should be 
+ * refactored. 
+ */
 void libusb_event_handling_thread(void);
 
 /** * @} */
