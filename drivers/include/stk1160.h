@@ -1,8 +1,5 @@
 /******************************************************************************
-Copyright 2008-2009, Freie Universitaet Berlin (FUB). All rights reserved.
-
-These sources were developed at the Freie Universitaet Berlin, Computer Systems
-and Telematics group (http://cst.mi.fu-berlin.de).
+Copyright 2013, Freie Universitaet Berlin (FUB). All rights reserved.
 -------------------------------------------------------------------------------
 This file is part of RIOT.
 
@@ -25,7 +22,7 @@ this program.  If not, see http://www.gnu.org/licenses/ .
 #include <stk1160_arch.h>
 
 /**
- * @defgroup stk1160 STK1160/SAA711X USB-video-grabber driver
+ * @defgroup stk1160 STK1160/SAA711X USB-video-grabber
  * @ingroup  driver
  * @{
  */

@@ -1,8 +1,5 @@
 /******************************************************************************
-Copyright 2008-2009, Freie Universitaet Berlin (FUB). All rights reserved.
-
-These sources were developed at the Freie Universitaet Berlin, Computer Systems
-and Telematics group (http://cst.mi.fu-berlin.de).
+Copyright 2013, Freie Universitaet Berlin (FUB). All rights reserved.
 -------------------------------------------------------------------------------
 This file is part of RIOT.
 
@@ -17,11 +14,6 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
 this program.  If not, see http://www.gnu.org/licenses/ .
---------------------------------------------------------------------------------
-For further information and questions please use the web site
-    http://scatterweb.mi.fu-berlin.de
-and the mailinglist (subscription via web site)
-    scatterweb@lists.spline.inf.fu-berlin.de
 *******************************************************************************/
 
 #ifndef __STK1160_ARCH_H
@@ -45,6 +37,8 @@ and the mailinglist (subscription via web site)
  * @file
  * @typedef stk1160_process_data_cb_handler
  * @brief a handler which is executed whenever video data is received.
+ * The first argument is a pointer to the video data buffer. The second
+ * argument is the length in bytes of the received video data.
  */
 typedef void (*stk1160_process_data_cb_handler)(uint8_t*, uint16_t);
 
@@ -76,8 +70,8 @@ int init_iso_transfer(int num_iso_packets, int buffer_size, stk1160_process_data
 /**
  * @brief This function is called each time a new packet (!) arrives.
  * 
- * It extracts data from the packet, calls the handler function 
- * with this data and resends a new empty packet to the grabber.
+ * It extracts video data from the packet, calls the handler function 
+ * with this video data and resends a new empty packet to the grabber.
  * 
  * @note This function is more or less libusb specific and should be 
  * refactored. 
